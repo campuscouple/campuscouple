@@ -20,6 +20,7 @@ public class Signup_VerifyActivity extends Activity implements OnClickListener
 	EditText verification_code_input;
 	TextView send_verification_code;
 	Button btn_next;
+	String phone_number = null;
 	
 	
 	protected void onCreate(Bundle savedInstanceState)
@@ -50,7 +51,7 @@ public class Signup_VerifyActivity extends Activity implements OnClickListener
 				break;
 				
 			case R.id.send_verification_code:
-				String phone_number = phone_number_input.getText().toString();
+				phone_number = phone_number_input.getText().toString();
 				if(phone_number.length() != 11)
 				{
 					Toast.makeText(this, "手机号码不正确", Toast.LENGTH_SHORT).show();
@@ -70,7 +71,6 @@ public class Signup_VerifyActivity extends Activity implements OnClickListener
 							}
 							catch (JSONException e)
 							{
-								e.printStackTrace();
 							}
 							Toast.makeText(Signup_VerifyActivity.this, "" + status, 
 									Toast.LENGTH_SHORT).show();
@@ -91,6 +91,54 @@ public class Signup_VerifyActivity extends Activity implements OnClickListener
 				break;
 				
 			case R.id.next:
+				String verify_code = verification_code_input.getText().toString();
+				if(verify_code.length() < 4)
+				{
+					Toast.makeText(this, "验证码错误", Toast.LENGTH_SHORT).show();
+					return;
+				}
+				
+				if(phone_number == null)
+				{
+					Toast.makeText(this, "请先发送验证码", Toast.LENGTH_SHORT).show();
+					return;
+				}
+				
+				HttpTask task1 = new HttpTask(this) {
+					
+					public void callback(String apiUrl, JSONObject jo)
+					{
+						if(jo != null)
+						{
+							int status = 0;
+							try
+							{
+								status = jo.getJSONObject("json").getInt("status");
+							}
+							catch (JSONException e)
+							{
+							}
+							if(status != 200)
+								Toast.makeText(Signup_VerifyActivity.this, "验证码错误" + status, 
+										Toast.LENGTH_SHORT).show();
+							else
+							{
+								Intent intent = new Intent(Signup_VerifyActivity.this, 
+										Signup_SetPasswordActivity.class);
+								Signup_VerifyActivity.this.startActivity(intent);
+								Signup_VerifyActivity.this.finish();
+							}
+						}
+						else
+							Toast.makeText(Signup_VerifyActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+					}
+				};
+				
+				task1.url("/user/verify/check")
+					.addParam("mobile", phone_number)
+					.addParam("verify_code", verify_code)
+					.sendRequest();
+				
 				break;
 
 			default:
