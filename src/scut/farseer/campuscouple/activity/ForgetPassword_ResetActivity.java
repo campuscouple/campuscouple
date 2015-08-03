@@ -39,7 +39,7 @@ public class ForgetPassword_ResetActivity extends Activity implements
 
 		Intent intentFromVerify = getIntent();
 		verifyCode = intentFromVerify.getStringExtra("verify_code");
-
+		userMobile = intentFromVerify.getStringExtra("user_mobile");
 	}
 
 	@Override
@@ -52,9 +52,6 @@ public class ForgetPassword_ResetActivity extends Activity implements
 				String passwordString = et_password.getText().toString();
 				String confirmPasswordString = et_password_confirm.getText()
 						.toString();
-				android.util.Log.d("TAG", "passwordString:" + passwordString);
-				android.util.Log.d("TAG", "confirmPasswordString:"
-						+ confirmPasswordString);
 				checkPassword(passwordString, confirmPasswordString);
 				if (flags4Next)
 				{
@@ -84,19 +81,14 @@ public class ForgetPassword_ResetActivity extends Activity implements
 			@Override
 			public void callback(String apiUrl, JSONObject jo)
 			{
-
-				android.util.Log.d("TAG", "apiUrl:" + apiUrl);
-
 				if (jo != null)
 				{
-					android.util.Log.d("TAG", "jo:" + jo.toString());
 					try
 					{
 						String warningString = "";
 						int status = jo.getJSONObject("json").getInt("status");
 						Intent intent = null;
 
-						android.util.Log.d("TAG", "status:" + status);
 						switch (status)
 						{
 							case 200:
@@ -155,7 +147,6 @@ public class ForgetPassword_ResetActivity extends Activity implements
 				}
 			}
 		};
-
 		task.url("/user/password/verify").addParam("mobile", userMobile)
 				.addParam("verify_code", verifyCode)
 				.addParam("new_password", password).sendRequest();
@@ -170,17 +161,17 @@ public class ForgetPassword_ResetActivity extends Activity implements
 			messageTaostString = "请全部填写";
 			flags4Next = false;
 		}
-		else if (passwordString != passwordString)
+		else if (passwordString.equals(confirmPasswordString))
+		{
+
+			password = passwordString;
+			flags4Next = true;
+		}
+		else
 		{
 			messageTaostString = "两次密码不正确";
 			flags4Next = false;
 		}
-		else if (passwordString == passwordString)
-		{
-			password = passwordString;
-			flags4Next = true;
-		}
-
 		if (!flags4Next)
 			Toast.makeText(ForgetPassword_ResetActivity.this,
 					messageTaostString, Toast.LENGTH_SHORT).show();
