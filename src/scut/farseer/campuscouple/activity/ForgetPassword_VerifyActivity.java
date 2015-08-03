@@ -43,6 +43,12 @@ public class ForgetPassword_VerifyActivity extends Activity implements OnClickLi
 				break;
 			
 			case R.id.send_verification_code:
+				
+				
+				
+				
+				
+				
 				break;
 				
 			case R.id.btn_next:
