@@ -5,8 +5,7 @@ import android.widget.TextView;
 
 /**
  * 
- * 发送短信的倒计时显示
- * 
+ * 发送短信的倒计时显示 传入TextView
  * 
  * @author luo.mingnan
  *

@@ -46,6 +46,9 @@ public class ForgetPassword_VerifyActivity extends Activity implements
 				break;
 
 			case R.id.send_verification_code:
+
+				// 发送信息后该发送验证码的控件不可点击，且倒计时显示“59s后可重发”
+
 				final MessageTimeCount time = new MessageTimeCount(20000, 1000,
 						send_verification_code);
 
@@ -56,9 +59,22 @@ public class ForgetPassword_VerifyActivity extends Activity implements
 							public void onClick(View v)
 							{
 								time.start();
-								android.util.Log.d("TAT", "123789");
 							}
 						});
+
+				// 获取用户输入的手机号码
+				String userMobile = "";
+				userMobile = phone_number_input.getText().toString();
+				if (userMobile == "" || userMobile.length() < 11)
+				{
+					Toast.makeText(ForgetPassword_VerifyActivity.this,
+							"手机号输入不正确", Toast.LENGTH_LONG).show();
+				}
+				else
+				{
+					// 向uer/password/forget发送信息,传入usermobile
+
+				}
 
 				break;
 
