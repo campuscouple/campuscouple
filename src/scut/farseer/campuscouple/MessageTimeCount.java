@@ -12,29 +12,34 @@ import android.widget.TextView;
  *
  */
 
-public class MessageTimeCount extends CountDownTimer {
+public class MessageTimeCount extends CountDownTimer
+{
 
 	private TextView v = null;
 
-	public MessageTimeCount(long millisInFuture, long countDownInterval) {
+	public MessageTimeCount(long millisInFuture, long countDownInterval)
+	{
 		super(millisInFuture, countDownInterval);
 	}
+
 	public MessageTimeCount(long millisInFuture, long countDownInterval,
-			TextView tv) {
+			TextView tv)
+	{
 		super(millisInFuture, countDownInterval);
 		v = tv;
 	}
+
 	@Override
-	public void onTick(long millisUntilFinished) {
+	public void onTick(long millisUntilFinished)
+	{
 		v.setClickable(false);
-		v.setBackgroundColor(android.graphics.Color.CYAN);
-		v.setText(millisUntilFinished / 1000 + "秒后重发");
+		v.setText(millisUntilFinished / 1000 + "s后可重发");
 	}
 
 	@Override
-	public void onFinish() {
-		v.setText("发送短信");
-		v.setBackgroundColor(android.graphics.Color.BLUE);
+	public void onFinish()
+	{
+		v.setText("发送验证码");
 		v.setClickable(true);
 	}
 }

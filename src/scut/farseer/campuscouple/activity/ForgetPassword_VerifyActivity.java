@@ -11,14 +11,16 @@ import android.view.View.OnClickListener;
 import android.widget.*;
 
 public class ForgetPassword_VerifyActivity extends Activity implements
-		OnClickListener {
+		OnClickListener
+{
 	View go_back;
 	EditText phone_number_input;
 	EditText verification_code_input;
 	TextView send_verification_code;
 	Button btn_next;
 
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.retrieve_password_verify);
 
@@ -33,38 +35,43 @@ public class ForgetPassword_VerifyActivity extends Activity implements
 		btn_next.setOnClickListener(this);
 	}
 
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.back:
-			Intent intent = new Intent(this, LoginActivity.class);
-			startActivity(intent);
-			finish();
-			break;
+	public void onClick(View v)
+	{
+		switch (v.getId())
+		{
+			case R.id.back:
+				Intent intent = new Intent(this, LoginActivity.class);
+				startActivity(intent);
+				finish();
+				break;
 
-		case R.id.send_verification_code:
-			final MessageTimeCount time = new MessageTimeCount(20000, 1000,
-					send_verification_code);
+			case R.id.send_verification_code:
+				final MessageTimeCount time = new MessageTimeCount(20000, 1000,
+						send_verification_code);
 
-			send_verification_code.setOnClickListener(new OnClickListener() {
+				send_verification_code
+						.setOnClickListener(new OnClickListener() {
 
-				@Override
-				public void onClick(View v) {
-					time.start();
-					android.util.Log.d("TAT", "123789");
-				}
-			});
+							@Override
+							public void onClick(View v)
+							{
+								time.start();
+								android.util.Log.d("TAT", "123789");
+							}
+						});
 
-			break;
+				break;
 
-		case R.id.btn_next:
-			break;
+			case R.id.btn_next:
+				break;
 
-		default:
-			break;
+			default:
+				break;
 		}
 	}
 
-	public void onBackPressed() {
+	public void onBackPressed()
+	{
 		super.onBackPressed();
 		Intent intent = new Intent(this, LoginActivity.class);
 		startActivity(intent);
