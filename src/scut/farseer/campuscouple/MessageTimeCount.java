@@ -1,6 +1,8 @@
 package scut.farseer.campuscouple;
 
 import android.os.CountDownTimer;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 /**
