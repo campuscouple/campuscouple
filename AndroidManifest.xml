@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="scut.farseer.campuscouple"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="21" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name">
+        <activity
+            android:name="scut.farseer.campuscouple.activity.StartActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="scut.farseer.campuscouple.activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar"/>
+        
+        <activity
+            android:name="scut.farseer.campuscouple.activity.LoginActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar"/>
+        
+        <activity
+            android:name="scut.farseer.campuscouple.activity.Signup_SetCampusActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar"/>
+        
+        <activity
+            android:name="scut.farseer.campuscouple.activity.Signup_SetInfoActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar"/>
+        
+        <activity
+            android:name="scut.farseer.campuscouple.activity.Signup_SetPasswordActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar"/>
+        
+        <activity
+            android:name="scut.farseer.campuscouple.activity.Signup_VerifyActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar"/>
+        
+        <activity
+            android:name="scut.farseer.campuscouple.activity.ForgetPassword_ResetActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar"/>
+        
+        <activity
+            android:name="scut.farseer.campuscouple.activity.ForgetPassword_VerifyActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar"/>
+    </application>
+
+</manifest>
