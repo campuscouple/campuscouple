@@ -15,11 +15,11 @@ import android.widget.*;
 public class ForgetPassword_VerifyActivity extends Activity implements
 		OnClickListener
 {
-	View go_back;
-	EditText phone_number_input;
-	EditText verification_code_input;
-	TextView send_verification_code;
-	Button btn_next;
+	private View go_back;
+	private EditText phone_number_input;
+	private EditText verification_code_input;
+	private TextView send_verification_code;
+	private Button btn_next;
 	private MessageTimeCount timeCount = null;
 	private String userMobile = "";
 	private boolean flags4Verify = false;// 检查能否发送验证码给后台
@@ -29,7 +29,6 @@ public class ForgetPassword_VerifyActivity extends Activity implements
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.retrieve_password_verify);
-
 		go_back = findViewById(R.id.back);
 		phone_number_input = (EditText) findViewById(R.id.phone_number_input);
 		verification_code_input = (EditText) findViewById(R.id.verification_code_input);
@@ -38,7 +37,7 @@ public class ForgetPassword_VerifyActivity extends Activity implements
 		go_back.setOnClickListener(this);
 		send_verification_code.setOnClickListener(this);
 		btn_next.setOnClickListener(this);
-		timeCount = new MessageTimeCount(20000, 1000, send_verification_code);
+		timeCount = new MessageTimeCount(30000, 1000, send_verification_code);
 		// 将输入验证码框改成不可输入
 		verification_code_input.setClickable(false);
 		// 将下一步的按钮改成不可点击
@@ -61,10 +60,9 @@ public class ForgetPassword_VerifyActivity extends Activity implements
 
 				// 获取用户输入的手机号码
 				userMobile = phone_number_input.getText().toString();
-
-				android.util.Log.d("TAG", "userMobile:" + userMobile);
-
-				if (userMobile == null || userMobile.length() != 11)// 错误提示
+				if (userMobile == null)
+					userMobile = "";
+				if (userMobile.length() != 11)// 错误提示
 					userMobileWrongInput(userMobile);
 				else
 				{// 控件不可点击，且倒计时显示“59s后可重发”
@@ -82,15 +80,7 @@ public class ForgetPassword_VerifyActivity extends Activity implements
 				// 检查mobile和verify是否填写
 				checkMobileAndVerifyCode();
 				if (flags4Verify)// 向后台发送信息并返回
-				{
-					// 储存Verify_code
-					intent = new Intent(ForgetPassword_VerifyActivity.this,
-							ForgetPassword_ResetActivity.class);
-					intent.putExtra("verify_code", verifyCode);
-					intent.putExtra("user_mobile", userMobile);
-					startActivity(intent);
-					finish();
-				}
+					passwordVerify2Server();
 				break;
 			default:
 				break;
@@ -102,9 +92,10 @@ public class ForgetPassword_VerifyActivity extends Activity implements
 	{
 		String warningString = "";
 		flags4Verify = false;
-		verifyCode = send_verification_code.getText().toString();
+		verifyCode = verification_code_input.getText().toString();
 		// 判断验证码
-		if (verifyCode != null && verifyCode.length() < 20)
+		if (verifyCode != null && verifyCode.length() < 20
+				&& verifyCode.length() > 2)
 			flags4Verify = true;
 		else
 		{
@@ -132,6 +123,8 @@ public class ForgetPassword_VerifyActivity extends Activity implements
 		String warningString = "";
 		if (userMobile == null)
 			warningString = "未输入手机号码.";
+		else if (userMobile.indexOf(0) == '0')
+			warningString = "不存在该手机号.";
 		else
 			warningString = "不存在该手机号，长度不对.";
 		if (userMobile.length() != 11)
@@ -147,14 +140,13 @@ public class ForgetPassword_VerifyActivity extends Activity implements
 			@Override
 			public void callback(String apiUrl, JSONObject jo)
 			{
-				
+
 				if (jo != null)
-				{android.util.Log.d("TAG", "jo:" + jo.toString());
+				{
 					try
 					{
 						String warningString = "";
 						int status = jo.getJSONObject("json").getInt("status");
-						android.util.Log.d("TAG", "status:" + status);
 						if (status != 200)
 						{
 							if (status == 421)
@@ -174,14 +166,82 @@ public class ForgetPassword_VerifyActivity extends Activity implements
 					}
 				}
 				else
-					Toast.makeText(ForgetPassword_VerifyActivity.this,
-							"json null", Toast.LENGTH_SHORT).show();
+					// json为null
+					Toast.makeText(ForgetPassword_VerifyActivity.this, "网络不好",
+							Toast.LENGTH_SHORT).show();
 			}
 		};
 
 		task.url("/user/password/forget").addParam("mobile", userMobile)
 				.sendRequest();
+	}
 
+	private void passwordVerify2Server()
+	{
+		Intent intent;
+		// 发送数据到后台,veriry_code,mobile,password
+		HttpTask task = new HttpTask(this) {
+
+			@Override
+			public void callback(String apiUrl, JSONObject jo)
+			{
+				if (jo != null)
+				{
+					try
+					{
+						String warningString = "";
+						int status = jo.getJSONObject("json").getInt("status");
+						Intent intent = null;
+						switch (status)
+						{
+							case 200:
+								// 储存Verify_code
+								intent = new Intent(
+										ForgetPassword_VerifyActivity.this,
+										ForgetPassword_ResetActivity.class);
+								intent.putExtra("verify_code", verifyCode);
+								intent.putExtra("user_mobile", userMobile);
+								startActivity(intent);
+								finish();
+								break;
+							case 111:
+								warningString = "参数值类型非法";
+								break;
+							case 110:
+								warningString = "缺少必填参数";
+								break;
+							case 431:
+								warningString = "验证码错误";
+								break;
+							case 421:
+								warningString = "手机号不存在";
+								break;
+							default:
+								warningString = "系统错误";
+								break;
+						}
+
+						if (status != 200)
+							Toast.makeText(ForgetPassword_VerifyActivity.this,
+									warningString, Toast.LENGTH_SHORT).show();
+					}
+					// TODO:存储usermobile
+
+					catch (Exception e)
+					{
+						Toast.makeText(ForgetPassword_VerifyActivity.this,
+								"系统异常", Toast.LENGTH_SHORT).show();
+					}
+				}
+				else
+				{
+					Toast.makeText(ForgetPassword_VerifyActivity.this,
+							"json null", Toast.LENGTH_SHORT).show();
+				}
+			}
+		};
+		task.url("/user/verify/check").addParam("mobile", userMobile)
+				.addParam("verify_code", verifyCode).sendRequest();
 	}
 
 	public void onBackPressed()
