@@ -52,6 +52,9 @@ public class ForgetPassword_ResetActivity extends Activity implements
 				String passwordString = et_password.getText().toString();
 				String confirmPasswordString = et_password_confirm.getText()
 						.toString();
+				android.util.Log.d("TAG", "passwordString:" + passwordString);
+				android.util.Log.d("TAG", "confirmPasswordString:"
+						+ confirmPasswordString);
 				checkPassword(passwordString, confirmPasswordString);
 				if (flags4Next)
 				{
@@ -81,13 +84,19 @@ public class ForgetPassword_ResetActivity extends Activity implements
 			@Override
 			public void callback(String apiUrl, JSONObject jo)
 			{
+
+				android.util.Log.d("TAG", "apiUrl:" + apiUrl);
+
 				if (jo != null)
 				{
+					android.util.Log.d("TAG", "jo:" + jo.toString());
 					try
 					{
 						String warningString = "";
 						int status = jo.getJSONObject("json").getInt("status");
 						Intent intent = null;
+
+						android.util.Log.d("TAG", "status:" + status);
 						switch (status)
 						{
 							case 200:
@@ -140,8 +149,10 @@ public class ForgetPassword_ResetActivity extends Activity implements
 					}
 				}
 				else
+				{
 					Toast.makeText(ForgetPassword_ResetActivity.this,
 							"json null", Toast.LENGTH_SHORT).show();
+				}
 			}
 		};
 

@@ -62,6 +62,8 @@ public class ForgetPassword_VerifyActivity extends Activity implements
 				// 获取用户输入的手机号码
 				userMobile = phone_number_input.getText().toString();
 
+				android.util.Log.d("TAG", "userMobile:" + userMobile);
+
 				if (userMobile == null || userMobile.length() != 11)// 错误提示
 					userMobileWrongInput(userMobile);
 				else
@@ -145,12 +147,14 @@ public class ForgetPassword_VerifyActivity extends Activity implements
 			@Override
 			public void callback(String apiUrl, JSONObject jo)
 			{
+				
 				if (jo != null)
-				{
+				{android.util.Log.d("TAG", "jo:" + jo.toString());
 					try
 					{
 						String warningString = "";
 						int status = jo.getJSONObject("json").getInt("status");
+						android.util.Log.d("TAG", "status:" + status);
 						if (status != 200)
 						{
 							if (status == 421)
@@ -177,6 +181,7 @@ public class ForgetPassword_VerifyActivity extends Activity implements
 
 		task.url("/user/password/forget").addParam("mobile", userMobile)
 				.sendRequest();
+
 	}
 
 	public void onBackPressed()
