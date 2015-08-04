@@ -14,6 +14,7 @@ import org.json.*;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 public abstract class HttpTask
 {
@@ -61,9 +62,11 @@ public abstract class HttpTask
 		task.execute(this.mApiUrl);
 	}
 
-	private void _callback(JSONObject str)
+	private void _callback(JSONObject jo)
 	{
-		this.callback(this.mApiUrl, str);
+		if(jo == null)
+			Toast.makeText(this.mActivity, "网络异常", Toast.LENGTH_SHORT).show();
+		this.callback(this.mApiUrl, jo);
 	}
 
 	public abstract void callback(String apiUrl, JSONObject jo);

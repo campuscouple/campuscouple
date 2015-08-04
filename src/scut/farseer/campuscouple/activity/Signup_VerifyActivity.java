@@ -76,8 +76,6 @@ public class Signup_VerifyActivity extends Activity implements OnClickListener
 							Toast.makeText(Signup_VerifyActivity.this, "" + status, 
 									Toast.LENGTH_SHORT).show();
 						}
-						else
-							Toast.makeText(Signup_VerifyActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
 					}
 				};
 				
@@ -132,8 +130,6 @@ public class Signup_VerifyActivity extends Activity implements OnClickListener
 								Signup_VerifyActivity.this.finish();
 							}
 						}
-						else
-							Toast.makeText(Signup_VerifyActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
 					}
 				};
 				
