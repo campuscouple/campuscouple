@@ -23,7 +23,6 @@ public class ForgetPassword_ResetActivity extends Activity implements
 	private String verifyCode = "";
 	private String userMobile = "";
 	private String password = "";
-
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
