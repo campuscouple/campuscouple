@@ -22,6 +22,7 @@ public class Signup_SetPasswordActivity extends Activity implements
 	Button set_password_next;
 	String phone_number = null;
 	String verify_code = null;
+	String passwordString = null;
 
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -43,7 +44,7 @@ public class Signup_SetPasswordActivity extends Activity implements
 		switch (v.getId())
 		{
 			case R.id.set_password_next:
-				String passwordString = set_password.getText().toString();
+				passwordString = set_password.getText().toString();
 				String confirmPasswordString = confirm_password.getText()
 						.toString();
 				if (!checkPassword(passwordString, confirmPasswordString))
@@ -61,10 +62,9 @@ public class Signup_SetPasswordActivity extends Activity implements
 								switch (status)
 								{
 									case 200:
-										Intent intent = new Intent(Signup_SetPasswordActivity.this,
-												Signup_SetCampusActivity.class);
-										Signup_SetPasswordActivity.this.startActivity(intent);
-										Signup_SetPasswordActivity.this.finish();
+										Toast.makeText(Signup_SetPasswordActivity.this, 
+												"注册成功", Toast.LENGTH_SHORT).show();
+										login(phone_number, passwordString);
 										break;
 									case 420:
 										Toast.makeText(Signup_SetPasswordActivity.this, "该手机号已被注册",
@@ -85,9 +85,6 @@ public class Signup_SetPasswordActivity extends Activity implements
 										Toast.LENGTH_SHORT).show();
 							}
 						}
-						else
-							Toast.makeText(Signup_SetPasswordActivity.this, "网络异常",
-									Toast.LENGTH_SHORT).show();
 					}
 				};
 				
@@ -102,6 +99,46 @@ public class Signup_SetPasswordActivity extends Activity implements
 			default:
 				break;
 		}
+	}
+	
+	private void login(String mobile, String password)
+	{
+		HttpTask task = new HttpTask(this) {
+			
+			public void callback(String apiUrl, JSONObject jo)
+			{
+				if(jo != null)
+				{
+					try
+					{
+						jo = jo.getJSONObject("json");
+						int status = jo.getInt("status");
+						jo = jo.getJSONObject("data");
+						String access_token = jo.getString("access_token");
+						int user_id = jo.getInt("user_id");
+						Intent intent = new Intent(Signup_SetPasswordActivity.this, 
+								Signup_SetCampusActivity.class);
+						intent.putExtra("access_token", access_token);
+						intent.putExtra("user_id", user_id);
+						startActivity(intent);
+						Signup_SetPasswordActivity.this.finish();
+					}
+					catch (JSONException e)
+					{
+						toLoginPage();
+					}
+				}
+				else
+					toLoginPage();
+			}
+		};
+	}
+	
+	private void toLoginPage()
+	{
+		Intent intent = new Intent(this, LoginActivity.class);
+		startActivity(intent);
+		finish();
 	}
 
 	private boolean checkPassword(String passwordString,

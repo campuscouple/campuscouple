@@ -13,6 +13,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.*;
 
 import android.app.Activity;
+import android.content.*;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -66,6 +67,40 @@ public abstract class HttpTask
 	{
 		if(jo == null)
 			Toast.makeText(this.mActivity, "网络异常", Toast.LENGTH_SHORT).show();
+		
+		if(this.mApiUrl.equals("/user/login"))
+		{
+			if(jo != null)
+			{
+				try
+				{
+					jo = jo.getJSONObject("json");
+					int status = jo.getInt("status");
+					if(status == 200)
+					{
+						jo = jo.getJSONObject("data");
+						String access_token = jo.getString("access_token");
+						int user_id = jo.getInt("user_id");
+						
+						SharedPreferences preferences = mActivity.getSharedPreferences(
+								AppConsts.PREFERENCE_NAME, mActivity.MODE_PRIVATE);
+						SharedPreferences.Editor editor = preferences.edit();
+						
+						editor.putBoolean("isLogined", true);
+						editor.putString("access_token", access_token);
+						editor.putInt("user_id", user_id);
+						editor.commit();
+						
+					}
+				}
+				catch (JSONException e)
+				{
+				}
+			}
+		}
+		
+		
+		
 		this.callback(this.mApiUrl, jo);
 	}
 
