@@ -21,6 +21,7 @@ public class Signup_VerifyActivity extends Activity implements OnClickListener
 	TextView send_verification_code;
 	Button btn_next;
 	String phone_number = null;
+	String verify_code = null;
 	
 	
 	protected void onCreate(Bundle savedInstanceState)
@@ -91,7 +92,7 @@ public class Signup_VerifyActivity extends Activity implements OnClickListener
 				break;
 				
 			case R.id.next:
-				String verify_code = verification_code_input.getText().toString();
+				verify_code = verification_code_input.getText().toString();
 				if(verify_code.length() < 4)
 				{
 					Toast.makeText(this, "验证码错误", Toast.LENGTH_SHORT).show();
@@ -125,6 +126,8 @@ public class Signup_VerifyActivity extends Activity implements OnClickListener
 							{
 								Intent intent = new Intent(Signup_VerifyActivity.this, 
 										Signup_SetPasswordActivity.class);
+								intent.putExtra("mobile", phone_number);
+								intent.putExtra("verify_code", verify_code);
 								Signup_VerifyActivity.this.startActivity(intent);
 								Signup_VerifyActivity.this.finish();
 							}
