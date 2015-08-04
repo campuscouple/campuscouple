@@ -23,7 +23,6 @@ public class ForgetPassword_ResetActivity extends Activity implements
 	private String verifyCode = "";
 	private String userMobile = "";
 	private String password = "";
-
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -33,7 +32,6 @@ public class ForgetPassword_ResetActivity extends Activity implements
 		et_password_confirm = (EditText) findViewById(R.id.confirm_password);
 		btn_next = (Button) findViewById(R.id.next);
 		sp_back = findViewById(R.id.sp_back);
-
 		btn_next.setOnClickListener(this);
 		sp_back.setOnClickListener(this);
 
