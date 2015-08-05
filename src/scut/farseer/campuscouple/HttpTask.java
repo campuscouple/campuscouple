@@ -76,6 +76,7 @@ public abstract class HttpTask
 				{
 					JSONObject json = jo.getJSONObject("json");
 					int status = json.getInt("status");
+					
 					if (status == 200)
 					{
 						json = json.getJSONObject("data");
