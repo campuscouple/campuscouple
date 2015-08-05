@@ -91,6 +91,7 @@ public abstract class HttpTask
 						editor.putBoolean("isLogined", true);
 						editor.putString("access_token", access_token);
 						editor.putInt("user_id", user_id);
+						
 						editor.commit();
 					}
 				}
