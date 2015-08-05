@@ -69,12 +69,13 @@ public class Signup_VerifyActivity extends Activity implements OnClickListener
 							try
 							{
 								status = jo.getJSONObject("json").getInt("status");
+								if(status == 420)
+									Toast.makeText(Signup_VerifyActivity.this, 
+											"手机号已被注册", Toast.LENGTH_SHORT).show();
 							}
 							catch (JSONException e)
 							{
 							}
-							Toast.makeText(Signup_VerifyActivity.this, "" + status, 
-									Toast.LENGTH_SHORT).show();
 						}
 					}
 				};
@@ -118,7 +119,7 @@ public class Signup_VerifyActivity extends Activity implements OnClickListener
 							{
 							}
 							if(status != 200)
-								Toast.makeText(Signup_VerifyActivity.this, "验证码错误" + status, 
+								Toast.makeText(Signup_VerifyActivity.this, "验证码错误", 
 										Toast.LENGTH_SHORT).show();
 							else
 							{
