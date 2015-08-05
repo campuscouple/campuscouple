@@ -111,17 +111,14 @@ public class Signup_SetPasswordActivity extends Activity implements
 				{
 					try
 					{
-						jo = jo.getJSONObject("json");
-						int status = jo.getInt("status");
-						jo = jo.getJSONObject("data");
-						String access_token = jo.getString("access_token");
-						int user_id = jo.getInt("user_id");
-						Intent intent = new Intent(Signup_SetPasswordActivity.this, 
-								Signup_SetCampusActivity.class);
-						intent.putExtra("access_token", access_token);
-						intent.putExtra("user_id", user_id);
-						startActivity(intent);
-						Signup_SetPasswordActivity.this.finish();
+						int status = jo.getJSONObject("json").getInt("status");
+						if(status == 200)
+						{
+							Intent intent = new Intent(Signup_SetPasswordActivity.this, 
+									Signup_SetCampusActivity.class);
+							startActivity(intent);
+							Signup_SetPasswordActivity.this.finish();
+						}
 					}
 					catch (JSONException e)
 					{
@@ -132,6 +129,11 @@ public class Signup_SetPasswordActivity extends Activity implements
 					toLoginPage();
 			}
 		};
+		
+		task.url("/user/login")
+			.addParam("mobile", mobile)
+			.addParam("password", password)
+			.sendRequest();
 	}
 	
 	private void toLoginPage()

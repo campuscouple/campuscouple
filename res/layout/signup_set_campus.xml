@@ -64,6 +64,7 @@
             android:layout_marginLeft="39dp"
             android:layout_marginRight="39dp"
             android:background="@drawable/rounded_rectangle"
+            android:visibility="invisible"
             android:textSize="13sp" />
     </LinearLayout>
 
