@@ -107,12 +107,8 @@ public abstract class HttpTask
 				{
 					JSONObject json = jo.getJSONObject("json");
 					int status = json.getInt("status");
-					if (status == 200)
+					if (status == 200 || status == 410)
 					{
-						json = json.getJSONObject("data");
-						String access_token = json.getString("access_token");
-						int user_id = json.getInt("user_id");
-
 						SharedPreferences preferences = mActivity
 								.getSharedPreferences(
 										AppConsts.PREFERENCE_NAME,
@@ -126,6 +122,7 @@ public abstract class HttpTask
 
 						editor.commit();
 					}
+
 				}
 				catch (JSONException e)
 				{
