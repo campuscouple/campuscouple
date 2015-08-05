@@ -199,7 +199,7 @@ public class Signup_SetCampusActivity extends Activity implements
 									Campus data = new Campus();
 									data.fromJson(list.getJSONObject(i));
 									campusList.add(data);
-									campusNames.add(schoolList.get(i).name);
+									campusNames.add(campusList.get(i).name);
 								}
 
 								ArrayAdapter<String> adapter = new ArrayAdapter<String>(
@@ -208,6 +208,11 @@ public class Signup_SetCampusActivity extends Activity implements
 										campusNames);
 
 								select_campus.setAdapter(adapter);
+								
+								if(campusNames.size() > 1)
+									select_campus.setVisibility(View.VISIBLE);
+								else
+									select_campus.setVisibility(View.INVISIBLE);
 							}
 						}
 						catch (JSONException e)
