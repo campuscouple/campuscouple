@@ -74,13 +74,13 @@ public abstract class HttpTask
 			{
 				try
 				{
-					jo = jo.getJSONObject("json");
-					int status = jo.getInt("status");
+					JSONObject json = jo.getJSONObject("json");
+					int status = json.getInt("status");
 					if (status == 200)
 					{
-						jo = jo.getJSONObject("data");
-						String access_token = jo.getString("access_token");
-						int user_id = jo.getInt("user_id");
+						json = json.getJSONObject("data");
+						String access_token = json.getString("access_token");
+						int user_id = json.getInt("user_id");
 
 						SharedPreferences preferences = mActivity
 								.getSharedPreferences(
@@ -105,13 +105,13 @@ public abstract class HttpTask
 			{
 				try
 				{
-					jo = jo.getJSONObject("json");
-					int status = jo.getInt("status");
+					JSONObject json = jo.getJSONObject("json");
+					int status = json.getInt("status");
 					if (status == 200)
 					{
-						jo = jo.getJSONObject("data");
-						String access_token = jo.getString("access_token");
-						int user_id = jo.getInt("user_id");
+						json = json.getJSONObject("data");
+						String access_token = json.getString("access_token");
+						int user_id = json.getInt("user_id");
 
 						SharedPreferences preferences = mActivity
 								.getSharedPreferences(

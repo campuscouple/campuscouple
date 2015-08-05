@@ -126,7 +126,9 @@ public class Signup_SetPasswordActivity extends Activity implements
 					}
 				}
 				else
+				{
 					toLoginPage();
+				}
 			}
 		};
 		
