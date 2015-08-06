@@ -1,5 +1,8 @@
 package scut.farseer.campuscouple.activity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import scut.farseer.campuscouple.*;
 import android.app.Activity;
 import android.content.Intent;
@@ -54,6 +57,7 @@ public class LoginActivity extends Activity implements OnClickListener
 				break;
 				
 			case R.id.btn_login:
+				onLogin();
 				break;
 				
 			case R.id.btn_sign_up:
@@ -71,5 +75,38 @@ public class LoginActivity extends Activity implements OnClickListener
 			default:
 				break;
 		}
+	}
+	
+	private void onLogin()
+	{
+		HttpTask task = new HttpTask(this) {
+			
+			public void callback(String apiUrl, JSONObject jo)
+			{
+				if(jo != null)
+				{
+					try
+					{
+						int status = jo.getJSONObject("json").getInt("status");
+						if(status == 200)
+						{
+							Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+							LoginActivity.this.startActivity(intent);
+							LoginActivity.this.finish();
+						}
+					}
+					catch (JSONException e)
+					{
+					}
+					
+				}
+			}
+		};
+		String username = username_input.getText().toString();
+		String password = password_input.getText().toString();
+		task.url("/user/login")
+			.addParam("mobile", username)
+			.addParam("password", password)
+			.sendRequest();
 	}
 }
