@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import scut.farseer.campuscouple.AppConsts;
 import scut.farseer.campuscouple.HttpTask;
 import scut.farseer.campuscouple.R;
-import scut.farseer.campuscouple.adapter.SchoolListAdapter;
 import scut.farseer.campuscouple.model.Campus;
 import scut.farseer.campuscouple.model.School;
 import android.app.Activity;
