@@ -5,6 +5,7 @@ import scut.farseer.campuscouple.fragment.DiscoverHomeFragment;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,6 +29,8 @@ public class MainActivity extends Activity implements OnClickListener
 		button_discover.setOnClickListener(this);
 		button_ordering.setOnClickListener(this);
 		button_me.setOnClickListener(this);
+		
+		buttonDiscoverSelected();
 	}
 
 	public void onClick(View v)
