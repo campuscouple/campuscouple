@@ -97,8 +97,9 @@ public class Signup_SetCampusActivity extends Activity implements
 
 							ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 									Signup_SetCampusActivity.this,
-									android.R.layout.simple_spinner_dropdown_item,
+									R.layout.spinner_item,
 									schoolNames);
+							adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 							select_school.setAdapter(adapter);
 						}
@@ -203,8 +204,9 @@ public class Signup_SetCampusActivity extends Activity implements
 
 								ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 										Signup_SetCampusActivity.this,
-										android.R.layout.simple_spinner_dropdown_item,
+										R.layout.spinner_item,
 										campusNames);
+								adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 								select_campus.setAdapter(adapter);
 								

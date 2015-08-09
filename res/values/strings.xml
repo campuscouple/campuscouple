@@ -4,5 +4,11 @@
     <string name="app_name">campuscouple</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    
+    
+    <string-array name="gender">
+        <item>男</item>
+        <item>女</item>
+    </string-array>
 
 </resources>

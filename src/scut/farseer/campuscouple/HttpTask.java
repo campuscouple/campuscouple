@@ -257,5 +257,4 @@ public abstract class HttpTask
 		}
 
 	}
-
 }

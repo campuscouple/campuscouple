@@ -42,7 +42,7 @@ public class StartActivity extends Activity
 			{
 				if(preferences.getBoolean("isLogined", false))
 				{
-					Intent intent = new Intent(StartActivity.this, MainActivity.class);
+					Intent intent = new Intent(StartActivity.this, Signup_SetInfoActivity.class);
 					startActivity(intent);
 					
 				}
