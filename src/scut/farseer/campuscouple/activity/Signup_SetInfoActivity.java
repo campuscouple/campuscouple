@@ -1,10 +1,12 @@
 package scut.farseer.campuscouple.activity;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import scut.farseer.campuscouple.AppConsts;
@@ -152,9 +154,44 @@ public class Signup_SetInfoActivity extends ImageActivity implements OnClickList
 	{
 	}
 
-	public void onDeterminePhoto(String pathName)
+	public void onDeterminePhoto(final String pathName)
 	{
-		displayPhoto(head_picture, pathName);
+		HttpTask task = new HttpTask(this) {
+			
+			public void callback(String apiUrl, JSONObject jo)
+			{
+				if(jo != null)
+				{
+					try
+					{
+						int status = jo.getJSONObject("json").getInt("status");
+						if(status == 200)
+							displayPhoto(head_picture, pathName);
+						else
+						{
+							String message = "status: " + status + "\n" + "data: "
+										+ jo.getJSONObject("json").getString("data");
+							Toast.makeText(Signup_SetInfoActivity.this, 
+									message, Toast.LENGTH_SHORT).show();
+						}
+					}
+					catch (JSONException e)
+					{
+						Toast.makeText(Signup_SetInfoActivity.this, 
+								"eror", Toast.LENGTH_SHORT).show();
+					}
+				}
+				else
+					Toast.makeText(Signup_SetInfoActivity.this, 
+							"null", Toast.LENGTH_SHORT).show();
+			}
+		};
+		
+		task.url("/user/upload")
+			.addParam("access_token", access_token)
+			.addParam("user_id", user_id + "")
+			.addParam("img_file", new File(pathName))
+			.sendRequest();
 	}
 
 	public void onBackPressed()

@@ -48,7 +48,7 @@ public class StartActivity extends Activity
 				}
 				else
 				{
-					Intent intent = new Intent(StartActivity.this, Signup_SetInfoActivity.class);
+					Intent intent = new Intent(StartActivity.this, LoginActivity.class);
 					startActivity(intent);
 				}
 				

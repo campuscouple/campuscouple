@@ -3,13 +3,24 @@ package scut.farseer.campuscouple;
 import java.io.*;
 import java.util.*;
 
-import org.apache.http.*;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
+import ogrelab.org.apache.*;
+import ogrelab.org.apache.http.HttpEntity;
+import ogrelab.org.apache.http.HttpResponse;
+import ogrelab.org.apache.http.HttpStatus;
+import ogrelab.org.apache.http.NameValuePair;
+import ogrelab.org.apache.http.client.HttpClient;
+import ogrelab.org.apache.http.client.entity.UrlEncodedFormEntity;
+import ogrelab.org.apache.http.client.methods.HttpPost;
+import ogrelab.org.apache.http.entity.mime.MultipartEntity;
+import ogrelab.org.apache.http.entity.mime.content.FileBody;
+import ogrelab.org.apache.http.entity.mime.content.StringBody;
+import ogrelab.org.apache.http.impl.client.DefaultHttpClient;
+import ogrelab.org.apache.http.message.BasicNameValuePair;
+
+//import org.apache.http.entity.mime.HttpMultipartMode;
+//import org.apache.http.entity.mime.MultipartEntityBuilder;
+//import org.apache.http.entity.mime.content.FileBody;
+//import org.apache.http.entity.mime.content.StringBody;
 import org.json.*;
 
 import android.app.Activity;
@@ -165,21 +176,22 @@ public abstract class HttpTask
 
 				if (this.mFileParam.size() > 0)
 				{
-					MultipartEntityBuilder builder = MultipartEntityBuilder
-							.create();
+					MultipartEntity entity = new MultipartEntity();
 					for (String key : this.mFileParam.keySet())
 					{
-						builder.addBinaryBody(key,
-								(File) this.mFileParam.get(key));
+						entity.addPart(key, new FileBody(mFileParam.get(key)));
+//						builder.addBinaryBody(key, this.mFileParam.get(key));
 					}
 
 					for (String key : this.mStringParam.keySet())
 					{
-						builder.addTextBody(key,
-								(String) this.mStringParam.get(key));
+						entity.addPart(key, new StringBody(mStringParam.get(key)));
+//						builder.addTextBody(key, this.mStringParam.get(key));
 					}
+					
+					post.setEntity(entity);
 
-					post.setEntity(builder.build());
+//					post.setEntity(builder.build());
 				}
 				else
 				{
