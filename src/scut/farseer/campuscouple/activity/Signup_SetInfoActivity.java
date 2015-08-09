@@ -11,10 +11,12 @@ import scut.farseer.campuscouple.AppConsts;
 import scut.farseer.campuscouple.HttpTask;
 import scut.farseer.campuscouple.R;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -142,6 +144,8 @@ public class Signup_SetInfoActivity extends ImageActivity implements OnClickList
 	
 	private void setHeadPicture()
 	{
+		Dialog dialog = new PictureDialog(this);
+		dialog.show();
 	}
 	
 	private void setUserInfo()
@@ -150,8 +154,7 @@ public class Signup_SetInfoActivity extends ImageActivity implements OnClickList
 
 	public void onDeterminePhoto(String pathName)
 	{
-		// TODO Auto-generated method stub
-		
+		displayPhoto(head_picture, pathName);
 	}
 
 	public void onBackPressed()
