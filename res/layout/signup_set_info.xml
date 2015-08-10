@@ -87,11 +87,11 @@
             android:background="@drawable/rounded_rectangle" />
 
         <EditText
-            android:id="@+id/academy"
+            android:id="@+id/profession"
             android:singleLine="true"
             android:layout_width="fill_parent"
             android:layout_height="34dp"
-            android:hint="学院"
+            android:hint="专业"
             android:layout_marginRight="39dp"
             android:paddingLeft="13dp"
             android:paddingRight="13dp"

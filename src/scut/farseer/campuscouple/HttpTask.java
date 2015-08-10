@@ -1,6 +1,7 @@
 package scut.farseer.campuscouple;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.*;
 
 import ogrelab.org.apache.*;
@@ -16,6 +17,9 @@ import ogrelab.org.apache.http.entity.mime.content.FileBody;
 import ogrelab.org.apache.http.entity.mime.content.StringBody;
 import ogrelab.org.apache.http.impl.client.DefaultHttpClient;
 import ogrelab.org.apache.http.message.BasicNameValuePair;
+
+
+import ogrelab.org.apache.http.protocol.HTTP;
 
 //import org.apache.http.entity.mime.HttpMultipartMode;
 //import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -185,7 +189,7 @@ public abstract class HttpTask
 
 					for (String key : this.mStringParam.keySet())
 					{
-						entity.addPart(key, new StringBody(mStringParam.get(key)));
+						entity.addPart(key, new StringBody(mStringParam.get(key), Charset.forName("UTF-8")));
 //						builder.addTextBody(key, this.mStringParam.get(key));
 					}
 					
@@ -204,7 +208,7 @@ public abstract class HttpTask
 					}
 
 					UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
-							parameters);
+							parameters, HTTP.UTF_8);
 					post.setEntity(formEntity);
 				}
 

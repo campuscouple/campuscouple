@@ -39,7 +39,7 @@ public class Signup_SetInfoActivity extends ImageActivity implements OnClickList
 	Button btn_later;
 	Button btn_done;
 	Spinner time_of_enrollment;
-	EditText academy;
+	EditText profession;
 	Spinner gender;
 	EditText nickname;
 	List<String> enroll_list;
@@ -61,7 +61,7 @@ public class Signup_SetInfoActivity extends ImageActivity implements OnClickList
 		btn_done = (Button) findViewById(R.id.btn_done);
 		btn_later = (Button) findViewById(R.id.btn_later);
 		time_of_enrollment = (Spinner) findViewById(R.id.time_of_enrollment);
-		academy = (EditText) findViewById(R.id.academy);
+		profession = (EditText) findViewById(R.id.profession);
 		gender = (Spinner) findViewById(R.id.gender);
 		nickname = (EditText) findViewById(R.id.nickname);
 		
@@ -90,7 +90,6 @@ public class Signup_SetInfoActivity extends ImageActivity implements OnClickList
 		head_picture.setOnClickListener(this);
 		btn_done.setOnClickListener(this);
 		btn_later.setOnClickListener(this);
-		
 		
 		
 		gender.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -152,6 +151,47 @@ public class Signup_SetInfoActivity extends ImageActivity implements OnClickList
 	
 	private void setUserInfo()
 	{
+		HttpTask task = new HttpTask(this) {
+			
+			public void callback(String apiUrl, JSONObject jo)
+			{
+				if(jo != null)
+				{
+					try
+					{
+						int status = jo.getJSONObject("json").getInt("status");
+						if(status == 200)
+						{
+							Intent intent = new Intent(Signup_SetInfoActivity.this, MainActivity.class);
+							Signup_SetInfoActivity.this.startActivity(intent);
+							Signup_SetInfoActivity.this.finish();
+						}
+						else
+							Toast.makeText(Signup_SetInfoActivity.this, "error" + status, Toast.LENGTH_SHORT).show();
+					}
+					catch (JSONException e)
+					{
+						Toast.makeText(Signup_SetInfoActivity.this, "exception", Toast.LENGTH_SHORT).show();
+					}
+				}
+			}
+		};
+		
+		task.url("/userinfo/set")
+			.addParam("access_token", access_token)
+			.addParam("user_id", user_id + "")
+			.addParam("sex", genderValue)
+			.addParam("enroll_year", enroll_year);
+		
+		String nickname_str = nickname.getText().toString();
+		if(nickname_str.length() >= 1 && nickname_str.length() <= 10)
+			task.addParam("nickname", nickname_str);
+		
+		String profession_str = profession.getText().toString();
+		if(profession_str.length() > 0 && profession_str.length() < 20)
+			task.addParam("profession", profession_str);
+		
+		task.sendRequest();
 	}
 
 	public void onDeterminePhoto(final String pathName)
@@ -177,13 +217,8 @@ public class Signup_SetInfoActivity extends ImageActivity implements OnClickList
 					}
 					catch (JSONException e)
 					{
-						Toast.makeText(Signup_SetInfoActivity.this, 
-								"eror", Toast.LENGTH_SHORT).show();
 					}
 				}
-				else
-					Toast.makeText(Signup_SetInfoActivity.this, 
-							"null", Toast.LENGTH_SHORT).show();
 			}
 		};
 		
