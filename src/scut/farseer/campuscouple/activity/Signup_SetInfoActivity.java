@@ -145,7 +145,7 @@ public class Signup_SetInfoActivity extends ImageActivity implements OnClickList
 	
 	private void setHeadPicture()
 	{
-		Dialog dialog = new PictureDialog(this);
+		Dialog dialog = new HeadImageDialog(this);
 		dialog.show();
 	}
 	
@@ -232,23 +232,6 @@ public class Signup_SetInfoActivity extends ImageActivity implements OnClickList
 	public void onBackPressed()
 	{
 		super.onBackPressed();
-		HttpTask task = new HttpTask(this) {
-			
-			public void callback(String apiUrl, JSONObject jo)
-			{
-				editor.remove("access_token");
-				editor.remove("user_id");
-				editor.commit();
-				Intent intent = new Intent(Signup_SetInfoActivity.this, LoginActivity.class);
-				Signup_SetInfoActivity.this.startActivity(intent);
-				Signup_SetInfoActivity.this.finish();
-			}
-		};
-		
-		task.url("/user/logout")
-			.addParam("access_token", access_token)
-			.addParam("user_id", user_id + "")
-			.sendRequest();
 	}
 
 }

@@ -12,8 +12,7 @@
             android:layout_height="19dp"
             android:background="@drawable/button_contacts"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="13dp"
-            />
+            android:layout_marginLeft="13dp"/>
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -57,10 +56,10 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="@drawable/shadow"/>
-    <ListView
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:dividerHeight="1dp"
         android:divider="#bebebe">
-    </ListView>
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
 </LinearLayout>
